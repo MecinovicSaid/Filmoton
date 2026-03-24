@@ -1,7 +1,26 @@
-"use client";
-import styles from './NavBar.module.css'; // Importuješ stilove kao objekat
+'use client'
+import styles from './NavBar.module.css';
+import {useState,useEffect} from "react"; // Importuješ stilove kao objekat
 
-function NavBar() {
+function NavBar({setMovies,initialMovies,} ) {
+
+    const [searchTerm, setSearchTerm] = useState("");
+
+
+    useEffect(() => {
+        if (searchTerm === '') {
+            setMovies(initialMovies);
+            return;
+        }
+        const delay = setTimeout(async () => {
+            if (searchTerm.length > 2) {
+                const results = await searchMovies(searchTerm);
+                setMovies(results);
+            }
+        }, 500);
+        return () => clearTimeout(delay);
+    }, [searchTerm, setMovies, initialMovies]);
+
     return (
         <nav className={styles.navBar}>
         <div className={styles.logo}>
@@ -10,7 +29,9 @@ function NavBar() {
 
 
     <div className={styles.searchContainer}>
-        <input type="text" placeholder="Pretraži filmove..." className={styles.searchInput} />
+        <input type="text" placeholder="Pretraži filmove..." className={styles.searchInput}
+               value={searchTerm}
+               onChange={(e) => setSearchTerm(e.target.value)}/>
     </div>
 
     <div className={styles.navButtons}>

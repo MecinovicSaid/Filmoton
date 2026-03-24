@@ -5,7 +5,7 @@ function MovieCard({ title, rating, imageUrl }) {
         <div className={styles.card}>
             <div className={styles.imageWrapper}>
                 <img src={imageUrl} alt={title} className={styles.image} />
-                <div className={styles.rating}>{rating}</div>
+                <div className={styles.rating}>rating:{rating}★</div>
             </div>
             <div className={styles.info}>
                 <h3 className={styles.title}>{title}</h3>
