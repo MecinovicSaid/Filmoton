@@ -70,3 +70,26 @@ export async function getMovieDetails(id) {
         return null;
     }
 }
+
+export  async function getMovieVideos (id) {
+
+    const options = {
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_TOKEN}`
+        }
+    }
+
+
+    try {
+        const res = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos?language=en-ENG`, options);
+    const data = await res.json();
+    const trailer =  data.results?.find(vid => vid.type === 'Trailer' && vid.site === 'YouTube');
+    return trailer ? trailer.key : null
+    } catch (err) {
+        console.error(err);
+        return null;
+    }
+
+}
