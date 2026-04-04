@@ -1,30 +1,27 @@
 // src/lib/tmdb.js
 
-import {headers} from "next/headers";
+
+const TOKEN = process.env.NEXT_PUBLIC_TMDB_TOKEN;
+
+console.log("TEST - Token length:", TOKEN ? TOKEN.length : "STILL UNDEFINED");
+
 
 export async function getMovies() {
-    //
-    const TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTc2MzFmZWI2OGFiNzQ2N2NmMWUzZjJmMThlOWIyMCIsIm5iZiI6MTc2MDk2NTY5My41NDksInN1YiI6IjY4ZjYzNDNkM2M2NzJkNzU4YmY1YzNmMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AHaxz7nJnHfrV9o3bLgWiKyGJBhk-Kpd1z6ztIbYzMQ';
-
+    // 2. Ovde unutar funkcije kreiramo options - SADA ĆE VIDETI TOKEN!
     const options = {
         method: 'GET',
         headers: {
-            'accept': 'application/json',
-            'Authorization': `Bearer ${TOKEN}`
-        },
-
-
+            accept: 'application/json',
+            Authorization: `Bearer ${TOKEN}`
+        }
     };
 
     try {
         const res = await fetch('https://api.themoviedb.org/3/discover/movie?language=en-ENG&sort_by=popularity.desc', options);
-
         if (!res.ok) {
-            // Ovo će ti u terminalu WebStorm-a ispisati tačan broj greške (npr. 401)
-            console.error(`TMDB warning: ${res.status} ${res.statusText}`);
-            throw new Error('Greška pri učitavanju sa TMDB servera');
+            console.error(`TMDB warning: ${res.status}`);
+            return [];
         }
-
         const data = await res.json();
         return data.results;
     } catch (err) {
@@ -36,24 +33,40 @@ export async function getMovies() {
 export async function searchMovies(query) {
     if (!query) return [];
 
-    const options =  {
+    // 3. I ovde ga ubaci unutra
+    const options = {
         method: 'GET',
-            headers: {
+        headers: {
             accept: 'application/json',
-                Authorization: `Bearer ${TOKEN}`
-
+            Authorization: `Bearer ${TOKEN}`
         }
     };
 
     try {
-        const res = await fetch (`https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(query)}&language=sr-RS&page=1`, options)
-    if (!res.ok) return [];
-    const data = await res.json()
+        const res = await fetch(`https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(query)}&language=en-ENG&page=1`, options);
+        if (!res.ok) return [];
+        const data = await res.json();
         return data.results;
-    }
-    catch (err) {
-        console.error("Fetch error:", err);
+    } catch (err) {
         return [];
     }
+}
 
+export async function getMovieDetails(id) {
+    // 4. I ovde isto
+    const options = {
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${TOKEN}`
+        }
+    };
+
+    try {
+        const res = await fetch(`https://api.themoviedb.org/3/movie/${id}?language=en-ENG`, options);
+        if (!res.ok) return null;
+        return await res.json();
+    } catch (err) {
+        return null;
+    }
 }

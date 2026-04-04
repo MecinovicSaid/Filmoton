@@ -1,6 +1,7 @@
 import styles from './MovieCard.module.css';
+import Link from "next/link";
 
-function MovieCard({ title, rating, imageUrl }) {
+function MovieCard({ id,title, rating, imageUrl }) {
     return (
         <div className={styles.card}>
             <div className={styles.imageWrapper}>
@@ -9,7 +10,8 @@ function MovieCard({ title, rating, imageUrl }) {
             </div>
             <div className={styles.info}>
                 <h3 className={styles.title}>{title}</h3>
-                <button className={styles.detailsBtn}>Detalji</button>
+                <Link href={`/movie/${id}`}><button className={styles.detailsBtn}>Detalji</button></Link>
+
             </div>
         </div>
     );

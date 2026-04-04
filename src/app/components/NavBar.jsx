@@ -1,6 +1,7 @@
 'use client'
 import styles from './NavBar.module.css';
 import {useState,useEffect} from "react"; // Importuješ stilove kao objekat
+import {searchMovies} from "@/lib/tmdb";
 
 function NavBar({setMovies,initialMovies,} ) {
 
@@ -8,7 +9,7 @@ function NavBar({setMovies,initialMovies,} ) {
 
 
     useEffect(() => {
-        if (searchTerm === '') {
+        if (searchTerm.trim() === '') {
             setMovies(initialMovies);
             return;
         }
