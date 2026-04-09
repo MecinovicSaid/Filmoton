@@ -8,7 +8,7 @@ console.log("TEST - Token length:", TOKEN ? TOKEN.length : "STILL UNDEFINED");
 
 
 export async function getMovies() {
-    // 2. Ovde unutar funkcije kreiramo options - SADA ĆE VIDETI TOKEN!
+    
     const options = {
         method: 'GET',
         headers: {
@@ -34,7 +34,7 @@ export async function getMovies() {
 export async function searchMovies(query) {
     if (!query) return [];
 
-    // 3. I ovde ga ubaci unutra
+
     const options = {
         method: 'GET',
         headers: {
@@ -54,7 +54,7 @@ export async function searchMovies(query) {
 }
 
 export async function getMovieDetails(id) {
-    // 4. I ovde isto
+    
     const options = {
         method: 'GET',
         headers: {
