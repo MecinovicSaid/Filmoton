@@ -1,81 +1,81 @@
 "use client"
 
 import {useState, useEffect} from 'react'
-import { getMovies } from '@/lib/tmdb';
-import MovieCard from './components/MovieCard/MovieCard';
-import NavBar from "@/app/components/NavBar";
+import {getTopRatedMovies} from "@/lib/tmdb";
+import { getMovies  } from '@/lib/tmdb';
+import MovieCard from "@/app/components/MovieCard/MovieCard";
+import NavBar from "@/app/components/NavBar/NavBar";
+import MovieRow from "@/app/components/MovieRow";
 
 export default  function HomePage() {
-    // Ovde povlačimo filmove sa API-ja
-    const [movies, setMovies] = useState([]);
-    const [initialMovies, setInitialMovies] = useState([]);
+    const [topRated,setTopRated] = useState([]);
+    const [trending, setTrending] = useState([]);
+    const [searchResults, setSearchResults] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        async function fetchIinitialData () {
-            try {
-                const data = await getMovies();
-                setMovies(data);
-                setInitialMovies(data);
-            } catch (error) {
-                console.error('warning: ', error);
-            } finally {
-                setLoading(false);
-            }
+        async function fetchAllData () {
+        try {
+            const [trendingData,topRatedData] = await Promise.all([
+                getMovies(),
+                getTopRatedMovies()
+            ])
+            setTopRated(topRatedData);
+            setTrending(trendingData);
         }
-        fetchIinitialData()
-    },[])
+        catch (error) {
+            console.log('warning',error);
+        }
+        finally {
+            setLoading(false);
+        }
+    }
+    fetchAllData();
+        },[])
 
 
-
-    if (loading) return <div style={{ color: '#64ffda', textAlign: 'center', marginTop: '50px' }}>Učitavanje...</div>;
+    if (loading) return <div style={{ color: '#64ffda', textAlign: 'center', marginTop: '50px' }}>Učitavanje bioskopa...</div>;
 
     return (
         <>
+            {/* NavBar-u šaljemo setSearchResults. Kada kucaš u search, on puni to stanje */}
+            <NavBar setMovies={setSearchResults} initialMovies={null} />
 
-            <NavBar setMovies={setMovies} initialMovies={initialMovies} />
+            <main style={{ padding: '40px 20px', backgroundColor: '#0a192f', minHeight: '100vh' }}>
 
-            <main style={{ padding: '20px' }}>
-                <h1 style={{ color: '#64ffda', textAlign: 'center' }}>
-                    {movies.length < 0 &&   movies.length < 20 ? "Rezultati pretrage" : "Top Films"}
-                </h1>
-
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
-                    gap: '25px',
-                    marginTop: '40px'
-                }}>
-                    {movies && movies.length > 0 ? (
-                        movies.map(movie => (
-                            <MovieCard
-                                key={movie.id}
-                                id={movie.id}
-                                title={movie.title}
-                                rating={movie.vote_average}
-                                imageUrl={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                            />
-                        ))
-                    ) : (
-                        //no results message //
+                {/* LOGIKA ZA PRIKAZ: Ako korisnik pretražuje, prikaži grid. Ako ne, prikaži redove. */}
+                {searchResults ? (
+                    <div>
+                        <h1 style={{ color: '#64ffda', textAlign: 'center', marginBottom: '40px' }}>Rezultati pretrage</h1>
                         <div style={{
-                            gridColumn: '1 / -1',
-                            textAlign: 'center',
-                            marginTop: '80px',
-                            padding: '40px',
-                            backgroundColor: 'rgba(100, 255, 218, 0.05)',
-                            borderRadius: '15px',
-                            border: '1px dashed #64ffda'
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+                            gap: '25px'
                         }}>
-                            <h2 style={{ color: '#64ffda' }}>No Results 😕</h2>
-                            <p style={{ color: '#ccd6f6' }}>
-                                Sorry, we can't find the movie you're looking for.
-                                <br /> Make sure you typed the name correctly.
-
-                            </p>
+                            {searchResults.length > 0 ? (
+                                searchResults.map(movie => (
+                                    <MovieCard
+                                        key={movie.id}
+                                        id={movie.id}
+                                        title={movie.title}
+                                        rating={movie.vote_average}
+                                        imageUrl={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                                    />
+                                ))
+                            ) : (
+                                <h2 style={{ color: '#64ffda', textAlign: 'center', gridColumn: '1/-1' }}>Nema rezultata 😕</h2>
+                            )}
                         </div>
-                    )}
-                </div>
+                    </div>
+                ) : (
+                    <>
+                        {/* 1. Red: Trending */}
+                        <MovieRow title="Trending Now" movies={trending} />
+
+                        {/* 2. Red: Top Rated */}
+                        <MovieRow title="Top Rated Shows" movies={topRated} />
+                    </>
+                )}
             </main>
         </>
     );

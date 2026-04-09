@@ -25,7 +25,7 @@ function NavBar({ setMovies, initialMovies }) {
         <nav className={styles.navBar}>
             <div className={styles.logo}>
                 {/* LOGO JE SADA LINK KOJI VODI NA POCETNU */}
-                <Link href="/" style={{ textDecoration: 'none' }}>
+                <Link href="/public" style={{ textDecoration: 'none' }}>
                     <h1 style={{
                         cursor: 'pointer',
                         margin: 0,

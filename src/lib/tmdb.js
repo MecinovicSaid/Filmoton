@@ -1,4 +1,5 @@
 // src/lib/tmdb.js
+'use client'
 
 
 const TOKEN = process.env.NEXT_PUBLIC_TMDB_TOKEN;
@@ -91,5 +92,28 @@ export  async function getMovieVideos (id) {
         console.error(err);
         return null;
     }
+}
 
+export async function getTopRatedMovies() {
+    // DONT FORGETT//
+    const options = {
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${TOKEN}`
+        }
+    };
+
+    try {
+        const res = await fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', options);
+        if (!res.ok) {
+            console.error(`TMDB Top Rated warning: ${res.status}`);
+            return [];
+        }
+        const data = await res.json();
+        return data.results;
+    } catch (err) {
+        console.error("Fetch Top Rated error:", err);
+        return [];
+    }
 }

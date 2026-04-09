@@ -1,6 +1,6 @@
 // app/layout.jsx
 
-import NavBar from "@/app/components/NavBar";
+import NavBar from "@/app/components/NavBar/NavBar";
 import './globals.css';
 
 export const metadata = {

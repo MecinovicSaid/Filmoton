@@ -4,3 +4,26 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+/* src/app/globals.css */
+:root {
+    /* LIGHT THEME (Ice Cold) */
+    --bg-main: #f8fafc;
+    --text-main: #0a192f;
+    --accent: #00bfa5;
+    --card-bg: #ffffff;
+}
+
+[data-theme='dark'] {
+    /* DARK THEME (Neon Night) */
+    --bg-main: #0a192f;
+    --text-main: #ccd6f6;
+    --accent: #64ffda;
+    --card-bg: #112240;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    transition: all 0.3s ease; /* smooth transition*/
+}

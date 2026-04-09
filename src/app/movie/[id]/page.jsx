@@ -1,6 +1,6 @@
 import { getMovieDetails, getMovieVideos } from "@/lib/tmdb";
 import TrailerModal from "@/app/components/TrailerModal";
-import Link from "next/link"; // Uvozimo Link za logo
+import Link from "next/link";
 
 const mainBtnStyle = {
     padding: '14px 30px',
@@ -32,7 +32,7 @@ export default async function MovieDetails({ params }) {
 
     return (
         <>
-            {/* PRILAGOĐENA NAVIGACIJA SA LINKOM */}
+            {/* NAV WITH LINK FOR HOMEPAGE */}
             <nav style={{
                 padding: '20px 40px',
                 background: '#0a192f',
@@ -53,7 +53,7 @@ export default async function MovieDetails({ params }) {
                     </h1>
                 </Link>
 
-                {/* Opciono: Možeš dodati Login/Signup dugmiće ovde da bi bilo simetrično */}
+                {/* LOGIN/SIGN UP RESERVED  */}
                 <div style={{ display: 'flex', gap: '15px' }}>
                     <button style={{ background: 'none', border: 'none', color: '#ccd6f6', cursor: 'pointer' }}>Login</button>
                     <button style={{ background: '#64ffda', border: 'none', color: '#0a192f', padding: '8px 15px', borderRadius: '5px', fontWeight: 'bold', cursor: 'pointer' }}>Sign Up</button>
@@ -63,12 +63,12 @@ export default async function MovieDetails({ params }) {
             <main style={{
                 padding: '40px',
                 display: 'flex',
-                gap: '60px', // Malo veći razmak za bolji pregled
+                gap: '60px',
                 backgroundColor: '#0a192f',
                 minHeight: '100vh',
                 color: '#ccd6f6'
             }}>
-                {/* Poster Filma */}
+                {/* Poster OF FILM */}
                 <img
                     src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                     alt={movie.title}
@@ -98,10 +98,10 @@ export default async function MovieDetails({ params }) {
 
                     <div style={{ marginBottom: '30px', display: 'flex', gap: '25px', fontSize: '1.1rem' }}>
                         <span style={{ color: '#64ffda' }}>
-                            ⭐ {movie.vote_average ? movie.vote_average.toFixed(1) : "N/A"}
+                            rating:⭐ {movie.vote_average ? movie.vote_average.toFixed(1) : "N/A"}
                         </span>
-                        <span>📅 {movie.release_date?.split('-')[0]}</span> {/* Samo godina */}
-                        <span>⏱️ {movie.runtime} min</span>
+                        <span>📅 year: {movie.release_date?.split('-')[0]}</span> {/* JUST YEAR */}
+                        <span>time:⏱️ {movie.runtime} min</span>
                     </div>
 
                     {/* Kontejner za akcije */}
