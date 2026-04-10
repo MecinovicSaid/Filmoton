@@ -20,7 +20,7 @@ export default function MovieRow({ title, movies }) {
                     scrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
                 }
             }
-        }, 4000); // 5 sekundi
+        }, 4000); // 4 sekunde
 
         return () => clearInterval(interval);
     }, [isPaused]);
@@ -71,6 +71,7 @@ export default function MovieRow({ title, movies }) {
                                 title={movie.title}
                                 rating={movie.vote_average}
                                 imageUrl={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                                genreIds={movie.genre_ids}
                             />
                         </div>
                     ))}

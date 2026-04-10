@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { searchMovies } from "@/lib/tmdb";
 import Link from "next/link";
 
-function NavBar({ setMovies, initialMovies }) {
+function NavBar({ setMovies = () => {}, initialMovies = [] }) {
     const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
@@ -25,14 +25,14 @@ function NavBar({ setMovies, initialMovies }) {
         <nav className={styles.navBar}>
             <div className={styles.logo}>
                 {/* LOGO JE SADA LINK KOJI VODI NA POCETNU */}
-                <Link href="/public" style={{ textDecoration: 'none' }}>
+                <Link href="/" style={{ textDecoration: 'none' }}>
                     <h1 style={{
                         cursor: 'pointer',
                         margin: 0,
                         fontSize: '1.5rem',
-                        color: '#64ffda', // Tvoja tirkizna boja
+                        color: '#64ffda',
                         fontWeight: 'bold',
-                        letterSpacing: '1px' // Malo razmaka za elegantniji izgled
+                        letterSpacing: '1px'
                     }}>
                         MOVIE<span style={{ color: '#ccd6f6' }}>HUB</span>
                     </h1>

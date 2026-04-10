@@ -1,5 +1,5 @@
 // src/lib/tmdb.js
-'use client'
+
 
 
 const TOKEN = process.env.NEXT_PUBLIC_TMDB_TOKEN;
@@ -114,6 +114,30 @@ export async function getTopRatedMovies() {
         return data.results;
     } catch (err) {
         console.error("Fetch Top Rated error:", err);
+        return [];
+    }
+}
+
+
+export async function getMoviesByGenre(genreId) {
+    const options = {
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_TOKEN}`
+        }
+    };
+
+    try {
+
+        const res = await fetch(
+            `https://api.themoviedb.org/3/discover/movie?with_genres=${genreId}&language=en-US&sort_by=popularity.desc`,
+            options
+        );
+        const data = await res.json();
+        return data.results;
+    } catch (err) {
+        console.error(err);
         return [];
     }
 }

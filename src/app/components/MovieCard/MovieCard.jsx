@@ -3,13 +3,28 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
-export default function MovieCard({ id, title, rating, imageUrl }) {
+const GENRE_MAP = {
+    28: "Action", 12: "Adventure", 16: "Animation", 35: "Comedy",
+    80: "Crime", 99: "Documentary", 18: "Drama", 10751: "Family",
+    14: "Fantasy", 36: "History", 27: "Horror", 10402: "Music",
+    9648: "Mystery", 10749: "Romance", 878: "Sci-Fi", 10770: "TV Movie",
+    53: "Thriller", 10752: "War", 37: "Western"
+};
+
+export default function MovieCard({ id, title, rating, imageUrl,genreIds}) {
     // Stanje kojim pratimo da li je miš iznad kartice
     const [isHovered, setIsHovered] = useState(false);
 
     const cardBg = 'var(--card-bg, rgba(17, 34, 64, 0.9))';
     const textMain = 'var(--text-main, #ccd6f6)';
     const accentColor = 'var(--accent, #64ffda)';
+
+    const movieGenres = genreIds
+        ?.map(id => GENRE_MAP[id])
+            .filter(name => name)
+            .slice(0,2)
+            .join(" • ")
+
 
     return (
         <Link href={`/movie/${id}`} style={{ textDecoration: 'none' }}>
@@ -28,7 +43,7 @@ export default function MovieCard({ id, title, rating, imageUrl }) {
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
             >
-                {/* 🖼️ POSTER */}
+                {/*  POSTER */}
                 <img
                     src={imageUrl}
                     alt={title}
@@ -41,13 +56,13 @@ export default function MovieCard({ id, title, rating, imageUrl }) {
                     }}
                 />
 
-                {/* 📝 NOVI I LEPŠI INFO PROZORČIĆ */}
+                {/* info window */}
                 <div style={{
                     position: 'absolute',
                     bottom: 0,
                     left: 0,
                     width: '100%',
-                    // Koristimo preliv od crne ka providnoj za "bioskopski" efekat
+
                     background: 'linear-gradient(to top, rgba(10, 25, 47, 0.98) 0%, rgba(10, 25, 47, 0.8) 60%, transparent 100%)',
                     backdropFilter: 'blur(12px)',
                     padding: '30px 15px 20px 15px',
@@ -63,9 +78,9 @@ export default function MovieCard({ id, title, rating, imageUrl }) {
                     opacity: isHovered ? 1 : 0,
                     transform: isHovered ? 'translateY(0)' : 'translateY(110%)',
                 }}>
-                    {/* Naslov filma */}
+                    {/* Title */}
                     <h3 style={{
-                        color: '#fff', // Čisto bela za bolji kontrast na mračnom
+                        color: '#fff',
                         margin: '0 0 12px 0',
                         fontSize: '1rem',
                         fontWeight: '600',
@@ -79,15 +94,15 @@ export default function MovieCard({ id, title, rating, imageUrl }) {
                         {title}
                     </h3>
 
-                    {/* Rejting "Kapsula" */}
+                    {/* Rating */}
                     <div style={{
                         display: 'flex',
                         alignItems: 'center',
                         gap: '6px',
-                        backgroundColor: 'rgba(100, 255, 218, 0.1)', // Vrlo bledo tirkizna pozadina
+                        backgroundColor: 'rgba(100, 255, 218, 0.1)',
                         padding: '5px 12px',
                         borderRadius: '20px',
-                        border: '1px solid #64ffda', // Tanka tirkizna ivica
+                        border: '1px solid #64ffda',
                     }}>
                         <span style={{ fontSize: '0.9rem' }}>⭐</span>
                         <span style={{
@@ -98,6 +113,18 @@ export default function MovieCard({ id, title, rating, imageUrl }) {
                             {rating ? rating.toFixed(1) : "N/A"}
                         </span>
                     </div>
+                    {movieGenres && (
+                        <span
+                        style={{
+                            color: 'rgba(255, 255, 255, 0.7)',
+                            fontSize: '0.8rem',
+                            fontWeight: '500',
+                            marginTop: '5px'
+                        }}>
+                            {movieGenres}
+                        </span>
+                    )}
+
                 </div>
             </div>
         </Link>
