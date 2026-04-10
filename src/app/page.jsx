@@ -48,12 +48,12 @@ export default  function HomePage() {
 
     return (
         <>
-            {/* NavBar-u šaljemo setSearchResults. Kada kucaš u search, on puni to stanje */}
+
             <NavBar setMovies={setSearchResults} initialMovies={null} />
 
             <main style={{ padding: '40px 20px', backgroundColor: '#0a192f', minHeight: '100vh' }}>
 
-                {/* LOGIKA ZA PRIKAZ: Ako korisnik pretražuje, prikaži grid. Ako ne, prikaži redove. */}
+                {/* logic: if you search (grid),if not (row). */}
                 {searchResults ? (
                     <div>
                         <h1 style={{ color: '#64ffda', textAlign: 'center', marginBottom: '40px' }}>Rezultati pretrage</h1>
@@ -79,10 +79,10 @@ export default  function HomePage() {
                     </div>
                 ) : (
                     <>
-                        {/* 1. Red: Trending */}
+                        {/* 1. row: Trending */}
                         <MovieRow title="Trending Now" movies={trending} />
 
-                        {/* 2. Red: Top Rated */}
+                        {/* 2. roww            : Top Rated */}
                         <MovieRow title="Top Rated Shows" movies={topRated} />
                     </>
                 )}
@@ -112,6 +112,3 @@ export default  function HomePage() {
         </>
     );
 }
-
-
-///URADITI ZANROVE ISPOD FILMOVA U INFO WINDOW + ZANR POLJA SUTRA + FILTER METHOD //////////////////////////

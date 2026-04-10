@@ -18,10 +18,7 @@ export default async function GenrePage({ params }) {
 
     return (
         <>
-            {/* 1. DODAJ NAVBAR NA VRH */}
-            {/* Napomena: Ovde prosleđujemo prazne funkcije jer na ovoj stranici
-                verovatno nećemo raditi instant filtriranje kao na home,
-                ali nam treba da bi se NavBar prikazao bez grešaka. */}
+
             <NavBar />
 
             <main style={{ padding: '40px 20px', backgroundColor: '#0a192f', minHeight: '100vh' }}>

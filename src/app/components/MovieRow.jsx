@@ -20,7 +20,8 @@ export default function MovieRow({ title, movies }) {
                     scrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
                 }
             }
-        }, 4000); // 4 sekunde
+
+        }, 4000);
 
         return () => clearInterval(interval);
     }, [isPaused]);
@@ -35,8 +36,8 @@ export default function MovieRow({ title, movies }) {
     return (
         <div
             style={{ marginBottom: '60px', position: 'relative' }}
-            onMouseEnter={() => setIsPaused(true)}  // Pauziraj kad je miš tu
-            onMouseLeave={() => setIsPaused(false)} // Nastavi kad miš ode
+            onMouseEnter={() => setIsPaused(true)}  // logic:when mouse is there stop auto-scroll
+            onMouseLeave={() => setIsPaused(false)} // if mouse is not there start autos-croll
         >
             <h2 style={{
                 color: '#64ffda',
@@ -49,7 +50,6 @@ export default function MovieRow({ title, movies }) {
             </h2>
 
             <div style={{ display: 'flex', alignItems: 'center', position: 'relative', group: 'true' }}>
-                {/* STRELICE - sada su malo lepše i vidljivije samo na hover */}
                 <button onClick={() => scroll("left")} style={{ ...navBtnStyle, left: '10px' }}> ‹ </button>
 
                 <div
