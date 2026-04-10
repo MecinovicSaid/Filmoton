@@ -117,10 +117,8 @@ export async function getTopRatedMovies() {
         return [];
     }
 }
-<<<<<<< HEAD
 
-
-export async function getMoviesByGenre(genreId) {
+export async function getMoviesByGenre (genreId) {
     const options = {
         method: 'GET',
         headers: {
@@ -142,5 +140,3 @@ export async function getMoviesByGenre(genreId) {
         return [];
     }
 }
-=======
->>>>>>> 384dbd0a63c3597896925e66f1e8408f7c387340

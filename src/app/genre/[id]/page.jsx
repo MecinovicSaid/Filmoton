@@ -1,4 +1,4 @@
-// src/app/genre/[id]/pagge.jsx
+// src/app/genre/[id]/page.jsx
 import { getMoviesByGenre } from "@/lib/tmdb";
 import MovieCard from "@/app/components/MovieCard/MovieCard";
 import NavBar from "@/app/components/NavBar/NavBar"; // UVEZI NAVBAR
