@@ -93,7 +93,7 @@ export default  function HomePage() {
                     </h2>
                     <div style={{
                         display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))', // Malo šire kartice
+                        gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))', 
                         gap: '25px',
                         padding: '0 15px'
                     }}>
