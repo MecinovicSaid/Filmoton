@@ -6,7 +6,7 @@ import { getMovies  } from '@/lib/tmdb';
 import MovieCard from "@/app/components/MovieCard/MovieCard";
 import NavBar from "@/app/components/NavBar/NavBar";
 import MovieRow from "@/app/components/MovieRow";
-import  GenreCards from "@/app/components/Genre/GenreCards";
+import  GenreCards from "@/app/components/GenreCrd/GenreCards";
 
 const genreList = [
     { id: 28, name: 'Action', color: 'rgba(229, 9, 20, 0.8)', image: 'https://image.tmdb.org/t/p/w500/8Y766967mS99vFEun9SAs69S99S.jpg' },
@@ -50,6 +50,44 @@ export default  function HomePage() {
         <>
 
             <NavBar setMovies={setSearchResults} initialMovies={null} />
+
+
+            {!searchResults && (
+            <header style={{
+                padding: '80px 20px 40px 20px',
+                textAlign: 'center',
+                background: 'linear-gradient(to bottom, #112240 0%, #0a192f 100%)',
+                marginBottom: '20px'
+            }}>
+                <h1 style={{
+                    fontSize: '3.5rem',
+                    color: '#64ffda',
+                    marginBottom: '10px',
+                    fontWeight: '800',
+                    textTransform: 'uppercase',
+                    letterSpacing: '2px'
+                }}>
+                    MOVIE<span style={{ color: '#ccd6f6' }}>HUB</span>
+                </h1>
+                <p style={{
+                    fontSize: '1.2rem',
+                    color: '#8892b0',
+                    maxWidth: '600px',
+                    margin: '0 auto',
+                    lineHeight: '1.6'
+                }}>
+                    Explore the latest blockbusters, discover hidden gems, and keep track of your must-watch movies in one place.
+                </p>
+
+
+                <div style={{
+                    width: '50px',
+                    height: '4px',
+                    backgroundColor: '#64ffda',
+                    margin: '30px auto 0 auto',
+                    borderRadius: '2px'
+                }}></div>
+            </header> )}
 
             <main style={{ padding: '40px 20px', backgroundColor: '#0a192f', minHeight: '100vh' }}>
 

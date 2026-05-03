@@ -1,7 +1,7 @@
 "use client";
 import { useState } from 'react';
 
-export default function TrailerModal({ trailerKey }) {
+export default function TrailerLogic({ trailerKey }) {
     const [isOpen, setIsOpen] = useState(false);
 
     // Ako nema ključa, nećemo sakriti dugme (radi testa), nego ćemo ispisati poruku

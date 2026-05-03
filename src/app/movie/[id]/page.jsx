@@ -1,6 +1,9 @@
+"use client"
 import { getMovieDetails, getMovieVideos } from "@/lib/tmdb";
-import TrailerModal from "@/app/components/TrailerModal";
+import TrailerLogic from "@/app/components/TrailerLogic";
 import Link from "next/link";
+import {useRouter} from "next/navigation";
+import {useState,useEffect,use} from "react";
 
 const mainBtnStyle = {
     padding: '14px 30px',
@@ -23,16 +26,47 @@ const outlineBtnStyle = {
     cursor: 'pointer',
 };
 
-export default async function MovieDetails({ params }) {
-    const { id } = await params;
-    const movie = await getMovieDetails(id);
-    const videoKey = await getMovieVideos(id);
+export default function MovieDetails({ params }) {
+    const { id } = use(params);
+    const router = useRouter();
 
+    const [movie,setMovie] = useState(null);
+    const [videoKey, setVideoKey] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function loadData () {
+            const movieData = await getMovieDetails(id);
+            const key = await getMovieVideos(id)
+            setMovie(movieData)
+            setVideoKey(key)
+            setLoading(false)
+        }
+        loadData();
+    },[id])
+
+
+    const handleSavedMovies = () => {
+
+        if (!movie) return;
+
+        const savedMovies = JSON.parse(localStorage.getItem('watchlist') || '[]')
+
+        if (!savedMovies.some(m => m.id === movie.id)) {
+            const updatedList = [...savedMovies,movie]
+
+            localStorage.setItem('watchlist', JSON.stringify(updatedList))
+        }
+
+        router.push('/savedmovies');
+    }
+
+    if (loading) return <div style={{ color: 'white', padding: '50px' }}>Loading..</div>
     if (!movie) return <div style={{ color: 'white', padding: '50px' }}>Film was not found.</div>;
 
     return (
         <>
-            {/* NAV WITH LINK FOR HOMEPAGE */}
+
             <nav style={{
                 padding: '20px 40px',
                 background: '#0a192f',
@@ -53,7 +87,7 @@ export default async function MovieDetails({ params }) {
                     </h1>
                 </Link>
 
-                {/* LOGIN/SIGN UP RESERVED  */}
+
                 <div style={{ display: 'flex', gap: '15px' }}>
                     <button style={{ background: 'none', border: 'none', color: '#ccd6f6', cursor: 'pointer' }}>Login</button>
                     <button style={{ background: '#64ffda', border: 'none', color: '#0a192f', padding: '8px 15px', borderRadius: '5px', fontWeight: 'bold', cursor: 'pointer' }}>Sign Up</button>
@@ -104,7 +138,7 @@ export default async function MovieDetails({ params }) {
                         <span>time:⏱️ {movie.runtime} min</span>
                     </div>
 
-                    {/* Kontejner za akcije */}
+
                     <div style={{
                         display: 'flex',
                         flexWrap: 'wrap',
@@ -114,10 +148,11 @@ export default async function MovieDetails({ params }) {
                     }}>
                         <button style={mainBtnStyle}>▶️ Watch Now</button>
 
-                        {/* Tvoj novi Modal Trailer */}
-                        <TrailerModal trailerKey={videoKey} />
 
-                        <button style={outlineBtnStyle}>🔖 Save</button>
+                        <TrailerLogic trailerKey={videoKey} />
+
+                        <button style={outlineBtnStyle}
+                        onClick={handleSavedMovies}> Save</button>
                         <button style={outlineBtnStyle}>❤️ Like</button>
                     </div>
 
